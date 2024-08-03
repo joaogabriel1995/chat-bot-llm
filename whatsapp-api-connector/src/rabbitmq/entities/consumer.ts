@@ -9,12 +9,19 @@ export class RabbitMQConsumer {
   async setupConsumer(
     channelName: string,
     queueName: string,
-    processFunction: (msg: ConsumeMessage | null) => Promise<any>,
-    failedFunction?: (msg: ConsumeMessage | null, error: Error) => void,
+    processFunction: (msg: ConsumeMessage) => Promise<void>,
+    failedFunction?: (msg: ConsumeMessage, error: Error) => void,
   ) {
+    if (!channelName || !queueName || !processFunction) {
+      console.error('Invalid parameters provided');
+      throw new Error('Invalid parameters provided');
+    }
+
     const channel = this.rabbitMQService.getChannel(channelName);
+
     if (!channel) {
-      return;
+      console.error(`Channel ${channelName} not found`);
+      throw new Error(`Channel ${channelName} not found`);
     }
 
     try {
@@ -38,8 +45,10 @@ export class RabbitMQConsumer {
           noAck: false,
         },
       );
+      return { success: true, message: 'Consumer setup successfully' };
     } catch (error: any) {
       console.error(`Failed to setup consumer: ${error.message}`);
+      throw new Error(`Failed to setup consumer: ${error.message}`);
     }
   }
 }
