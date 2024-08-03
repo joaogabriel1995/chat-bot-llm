@@ -17,7 +17,6 @@ Este projeto implementa um sistema de chatbot usando RabbitMQ e Crew AI para ger
 - Uso de Redis para armazenar o estado e o contexto das conversas, garantindo persistência entre sessões.
 
 ```html
-<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=5,IE=9" ><![endif]-->
 <!DOCTYPE html>
 <html>
 <head>
